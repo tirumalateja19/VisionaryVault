@@ -30,7 +30,10 @@ export default function Header() {
       <div className="flex items-center space-x-4">
         <nav className="flex space-x-6 text-black text-lg font-medium">
           <Link to="taskDash" className="hover:text-gray-500 transition-colors">
-            Tasks
+            Tasks 🎯
+          </Link>
+          <Link to="noteDash" className="hover:text-gray-500 transition-colors">
+            Notes 📑
           </Link>
           <Link
             to="movieDash"

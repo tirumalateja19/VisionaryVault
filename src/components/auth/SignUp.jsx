@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/Firebase";
-
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState("");
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
   const signUp = async () => {
     setLoading(true);
     setError(null);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/body", { replace: true });
     } catch (err) {
       console.error(err);
       setError("auth/email-already-exists");
@@ -30,7 +32,7 @@ const SignUp = () => {
           </h2>
         </div>
 
-        <div className="mt-10 w-[23vw] h-[42vh] justify-center border border-gray-300 rounded-xl bg-gray-200 p-8 shadow-lg">
+        <div className="mt-10 w-[23vw] h-[45vh] justify-center border border-gray-300 rounded-xl bg-gray-200 p-8 shadow-lg">
           {" "}
           <form className="space-y-6">
             <div>
@@ -85,8 +87,13 @@ const SignUp = () => {
               >
                 {loading ? "creating account" : "Sign up"}
               </button>
+              <Link to="/">
+                <h1 className="text-lg text-center cursor-pointer hover:text-red-500 font-semibold mt-3">
+                  Login
+                </h1>
+              </Link>
               {error && (
-                <div className="text-sm text-red-600 mt-5 text-center">
+                <div className="text-sm text-red-600 mt-2 text-center">
                   {error}
                 </div>
               )}

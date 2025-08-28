@@ -11,6 +11,9 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import CreateMovie from "./components/movies/CreateMovie";
 import CreateTasks from "./components/tasks/CreateTasks";
+import NotesDashboard from "./components/notes/NotesDashboard";
+import CreateNote from "./components/notes/CreateNote";
+
 const appRouter = createBrowserRouter([
   { path: "/", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
@@ -31,6 +34,11 @@ const appRouter = createBrowserRouter([
         path: "movieDash",
         element: <MovieDashboard />,
         children: [{ path: "createMovie", element: <CreateMovie /> }],
+      },
+      {
+        path: "noteDash",
+        element: <NotesDashboard />,
+        children: [{ path: "createNote", element: <CreateNote /> }],
       },
     ],
   },
