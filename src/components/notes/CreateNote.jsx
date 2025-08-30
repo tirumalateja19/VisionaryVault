@@ -13,10 +13,18 @@ const CreateNote = () => {
 
   const NoteReference = collection(db, "notes");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const reset = () => {
+    setTitle("");
+    setDescription("");
+    setError(null);
   };
-  const uploadNote = async () => {
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!title || !description) {
+      setError("All fields are required ❌");
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
@@ -27,6 +35,7 @@ const CreateNote = () => {
         userId: auth.currentUser.uid,
       });
       setTrigger((prev) => !prev);
+      reset();
     } catch (err) {
       console.error(err);
       setError(err.message || "Failed to add Note");
@@ -34,16 +43,12 @@ const CreateNote = () => {
       setLoading(false);
     }
   };
-  const reset = () => {
-    setTitle("");
-    setDescription("");
-    setError(null);
-  };
+
   return (
-    <div className="flex items-center justify-center mb-14">
+    <div className="flex items-center justify-center mt-7 mb-7">
       <form
         onSubmit={handleSubmit}
-        className="w-3/6 h-full p-6 rounded-2xl shadow bg-white space-y-1 border"
+        className="w-[56vw] h-full p-6 rounded-2xl shadow bg-white space-y-1 border border-[#46c4a1]"
       >
         <h1 className="text-center text-xl font-semibold text-black">
           CreateNotes
@@ -53,7 +58,7 @@ const CreateNote = () => {
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-3/6 mt-1 p-2 border rounded focus:border-blue-400 focus:ring focus:ring-blue-500"
+            className="w-3/6 mt-1 p-2 border border-[#46c4a1] rounded"
           />
         </div>
 
@@ -62,22 +67,18 @@ const CreateNote = () => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-3/4 mt-1 p-2 border rounded focus:border-blue-400 focus:ring focus:ring-blue-500"
+            className="w-3/4 mt-1 p-2 border border-[#46c4a1] rounded"
             rows={3}
           />
         </div>
 
         {error && <div className="text-sm text-red-600">{error}</div>}
 
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-end mt-4">
           <button
             type="submit"
-            className="px-4 py-2 rounded-lg font-semibold shadow hover:opacity-90 transition"
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow hover:bg-yellow-600 transition"
             disabled={loading}
-            onClick={() => {
-              reset();
-              uploadNote();
-            }}
           >
             {loading ? "Saving..." : "Save Note"}
           </button>

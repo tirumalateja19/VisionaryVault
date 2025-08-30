@@ -24,7 +24,7 @@ const SignUp = () => {
     }
   };
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center bg-[#FAFAF9] min-h-screen">
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className=" text-center text-2xl/9 font-bold tracking-tight text-black">
@@ -32,7 +32,7 @@ const SignUp = () => {
           </h2>
         </div>
 
-        <div className="mt-10 w-[23vw] h-[45vh] justify-center border border-gray-300 rounded-xl bg-gray-200 p-8 shadow-lg">
+        <div className="mt-10 w-[26vw] h-[45vh] justify-center border border-gray-300 rounded-xl bg-gray-200 p-8 shadow-lg">
           {" "}
           <form className="space-y-6">
             <div>
@@ -88,7 +88,7 @@ const SignUp = () => {
                 {loading ? "creating account" : "Sign up"}
               </button>
               <Link to="/">
-                <h1 className="text-lg text-center cursor-pointer hover:text-red-500 font-semibold mt-3">
+                <h1 className="text-lg text-center cursor-pointer hover:text-red-500 font-semibold mt-3 mb-2">
                   Login
                 </h1>
               </Link>

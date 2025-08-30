@@ -9,7 +9,9 @@ import {
   getDocs,
   query,
   where,
+  updateDoc,
 } from "firebase/firestore";
+import Header from "../Header";
 
 const MovieDashboard = () => {
   //movie data state
@@ -31,7 +33,7 @@ const MovieDashboard = () => {
           id: doc.id,
         }));
         setMovieList(filteredData);
-        console.log(filteredData);
+        // console.log(filteredData);
       } catch (err) {
         console.error(err);
       }
@@ -48,34 +50,65 @@ const MovieDashboard = () => {
       console.error(err);
     }
   };
+  const changeStatus = async (id, state) => {
+    try {
+      const movieDoc = doc(db, "movies", id);
+      await updateDoc(movieDoc, { watched: !state });
+      setTrigger((prev) => !prev);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div>
-      <h1 className="text-center font-mono text-2xl mt-6">Movie Dashboard</h1>
-      <h1 className="text-center mt-5">
-        <Link to="createMovie">➕ Add new movie</Link>
-      </h1>
-      <div className="flex justify-around items-center mt-10">
-        <div className="w-[10vw] font-serif text-lg">
+      <Header />
+      <div>
+        <h1 className="text-center font-mono text-2xl mt-6">
+          🎬 Movie Dashboard
+        </h1>
+        <h1 className="text-center mt-5">
+          <Link
+            to="createMovie"
+            className="text-blue-600 hover:underline font-semibold"
+          >
+            ➕ Add new movie
+          </Link>
+        </h1>
+
+        <div className="flex flex-wrap justify-center gap-6 leading-7 mt-10 px-6">
           {movieList.map((movie) => (
-            <div key={movie.id}>
+            <div
+              key={movie.id}
+              className="w-full sm:w-[45%] lg:w-[20vw] h-auto min-h-[22vh] p-4 rounded-xl shadow-md bg-white border border-gray-700 hover:shadow-lg transition-all"
+            >
               <h1
-                className="text-xl font-bold"
+                className="text-xl uppercase font-serif font-medium mb-2"
                 style={{ color: movie.watched ? "green" : "red" }}
               >
-                Title: {movie.name}
+                {movie.name}
               </h1>
-              <h1>Year: {movie.year}</h1>
-              <h2>Genre: {movie.genre}</h2>
-              <button
-                onClick={() => deleteMovie(movie.id)}
-                className="bg-red-600 px-2 py-1 text-sm text-white rounded-sm font-bold"
-              >
-                Delete movie
-              </button>
+              <p className="text-gray-600">📅 Year: {movie.year}</p>
+              <p className="text-gray-600">🎭 Genre: {movie.genre}</p>
+
+              <div className="flex justify-between">
+                <button
+                  onClick={() => changeStatus(movie.id, movie.watched)}
+                  className="mt-3 px-3 py-1 bg-blue-500 text-white rounded-md font-semibold shadow"
+                >
+                  Change Status
+                </button>
+                <button
+                  onClick={() => deleteMovie(movie.id)}
+                  className="mt-3 bg-red-600  px-3 py-1 text-sm text-white rounded-md font-semibold shadow"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
+
         <div>
           <Outlet context={{ setTrigger }} />
         </div>

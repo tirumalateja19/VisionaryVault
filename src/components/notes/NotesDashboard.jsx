@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../config/Firebase";
 import { useAuth } from "../../context/AuthContext";
 import { Link, Outlet } from "react-router";
+import Header from "../Header";
 
 const NotesDashboard = () => {
   const [notesList, setNoteList] = useState([]);
@@ -45,31 +46,50 @@ const NotesDashboard = () => {
   };
   return (
     <div>
+      <Header />
       <div>
-        <h1 className="text-center font-mono text-2xl mt-6">Note Dashboard</h1>
-        <h1 className="text-center mt-5">
-          <Link to="createNote">➕ Add new Note</Link>
+        <h1 className="text-center font-mono mt-6 text-3xl font-bold text-gray-800">
+          📒 Note Dashboard
+        </h1>
+        <h1 className="text-center mt-4">
+          <Link
+            to="createNote"
+            className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+          >
+            ➕ Add new Note
+          </Link>
         </h1>
       </div>
-      <div className="flex flex-col ">
-        <div className="flex-grow p-4 gap-12">
-          {notesList.map((note) => (
-            <div key={note.id}>
-              <h1>Title:{note.title}</h1>
-              <h1 className="w-72">Description:{note.description}</h1>
-              <h1>Date:{note.date.toDate().toLocaleString()}</h1>
+
+      <div className="flex flex-col items-center mt-8 space-y-6">
+        {notesList.map((note) => (
+          <div
+            key={note.id}
+            className="w-[90vw] max-w-4xl bg-[#46c4a1] border border-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition"
+          >
+            <h2 className="text-xl font-serif capitalize text-white mb-2">
+              {note.title}
+            </h2>
+            <p className="text-gray-100 text-sm mb-3 line-clamp-3">
+              {note.description}
+            </p>
+            <p className="text-xs text-gray-50 mb-4">
+              {note.date.toDate().toLocaleString()}
+            </p>
+            <div className="flex justify-end">
               <button
                 onClick={() => deleteNote(note.id)}
-                className="bg-red-600 px-2 py-1 text-sm text-white rounded-sm font-bold"
+                className="px-3 py-1 bg-red-600 text-white rounded-lg font-semibold shadow"
               >
-                Delete Note
+                Delete
               </button>
             </div>
-          ))}
-        </div>
-        <div className="">
-          <Outlet context={{ setTrigger }} />
-        </div>
+          </div>
+        ))}
+      </div>
+
+      <div>
+        <Outlet context={{ setTrigger }} />
       </div>
     </div>
   );

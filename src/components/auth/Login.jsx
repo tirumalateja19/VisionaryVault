@@ -31,7 +31,7 @@ const Login = () => {
   };
   // console.log(auth?.currentUser?.email);
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center bg-[#FAFAF9] min-h-screen">
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className=" text-center text-2xl/9 font-bold tracking-tight text-black">
@@ -39,7 +39,7 @@ const Login = () => {
           </h2>
         </div>
 
-        <div className="mt-10 w-[350px] justify-center border border-gray-300 rounded-xl bg-gray-200 p-8 shadow-lg">
+        <div className="mt-10 w-[26vw] h-[46vh] justify-center border border-gray-300 rounded-xl bg-gray-200 p-8 shadow-lg">
           {" "}
           <form className="space-y-6">
             {error && (

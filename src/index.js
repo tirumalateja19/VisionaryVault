@@ -24,23 +24,34 @@ const appRouter = createBrowserRouter([
         <Body />
       </ProtectedRoute>
     ),
-    children: [
-      {
-        path: "taskDash",
-        element: <TaskDashboard />,
-        children: [{ path: "createTask", element: <CreateTasks /> }],
-      },
-      {
-        path: "movieDash",
-        element: <MovieDashboard />,
-        children: [{ path: "createMovie", element: <CreateMovie /> }],
-      },
-      {
-        path: "noteDash",
-        element: <NotesDashboard />,
-        children: [{ path: "createNote", element: <CreateNote /> }],
-      },
-    ],
+  },
+  {
+    path: "/taskDash",
+    element: (
+      <ProtectedRoute>
+        <TaskDashboard />
+      </ProtectedRoute>
+    ),
+    children: [{ path: "createTask", element: <CreateTasks /> }],
+  },
+
+  {
+    path: "movieDash",
+    element: (
+      <ProtectedRoute>
+        <MovieDashboard />
+      </ProtectedRoute>
+    ),
+    children: [{ path: "createMovie", element: <CreateMovie /> }],
+  },
+  {
+    path: "noteDash",
+    element: (
+      <ProtectedRoute>
+        <NotesDashboard />
+      </ProtectedRoute>
+    ),
+    children: [{ path: "createNote", element: <CreateNote /> }],
   },
 ]);
 

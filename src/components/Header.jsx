@@ -1,3 +1,4 @@
+// header.jsx
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router";
@@ -14,40 +15,63 @@ export default function Header() {
   const openBody = () => {
     navigate("/body", { replace: true });
   };
+  const openTasks = () => {
+    navigate("/taskDash", { replace: true });
+  };
+  const openNotes = () => {
+    navigate("/noteDash", { replace: true });
+  };
+  const openMovies = () => {
+    navigate("/movieDash", { replace: true });
+  };
 
   return (
-    <header className="flex items-center text-black justify-between px-8 py-4 bg-gray-200">
-      <div
-        className="text-2xl font-semibold font-serif cursor-pointer hover:scale-105 transition-transform tracking-wide hover:text-gray-500"
-        onClick={openBody}
-      >
-        ⚡ ProgressTrack
-      </div>
-      <span className="text-white text-2xl italic">
-        {user ? `Welcome, ${user.email.split("@")[0]}` : "Guest"}
-      </span>
-
-      <div className="flex items-center space-x-4">
-        <nav className="flex space-x-6 text-black text-lg font-medium">
-          <Link to="taskDash" className="hover:text-gray-500 transition-colors">
-            Tasks 🎯
-          </Link>
-          <Link to="noteDash" className="hover:text-gray-500 transition-colors">
-            Notes 📑
-          </Link>
-          <Link
-            to="movieDash"
-            className="hover:text-gray-500 transition-colors"
-          >
-            Movies 🎬
-          </Link>
-        </nav>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 rounded-xl text-black font-semibold shadow-md hover:bg-gray-300"
+    <header className="sticky top-0 z-20 border-b bg-white">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-3 md:flex-row md:items-center md:justify-between md:gap-0 md:py-4">
+        <div
+          className="cursor-pointer font-sans text-xl font-semibold tracking-tight text-emerald-700 transition-colors hover:text-emerald-800 md:text-2xl"
+          onClick={openBody}
         >
-          Logout
-        </button>
+          VisionaryVault
+        </div>
+
+        <span className="font-sans text-sm text-zinc-600 md:text-base">
+          {user ? `Welcome, ${user.email.split("@")[0]}` : "Guest"}
+        </span>
+
+        <div className="flex items-center gap-4 md:gap-6">
+          <nav
+            aria-label="Primary"
+            className="flex items-center gap-4 text-sm font-medium md:gap-6 md:text-base"
+          >
+            <h1
+              onClick={openTasks}
+              className="text-zinc-700 cursor-pointer transition-colors hover:text-emerald-700"
+            >
+              Tasks
+            </h1>
+            <h1
+              onClick={openNotes}
+              className="text-zinc-700 cursor-pointer transition-colors hover:text-emerald-700"
+            >
+              Notes
+            </h1>
+            <h1
+              onClick={openMovies}
+              className="text-zinc-700 cursor-pointer transition-colors hover:text-emerald-700"
+            >
+              Movies
+            </h1>
+          </nav>
+
+          <button
+            onClick={handleLogout}
+            aria-label="Logout"
+            className="rounded-md bg-emerald-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </header>
   );
