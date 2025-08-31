@@ -31,24 +31,27 @@ const Login = () => {
   };
   // console.log(auth?.currentUser?.email);
   return (
-    <div className="flex items-center justify-center bg-[#FAFAF9] min-h-screen">
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex items-center justify-center bg-[#FAFAF9] min-h-screen px-4">
+      <div className="flex min-h-full flex-col justify-center w-full max-w-md">
+        {/* Heading */}
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className=" text-center text-2xl/9 font-bold tracking-tight text-black">
+          <h2 className="text-center text-2xl/9 font-bold tracking-tight text-black">
             Log in to your account
           </h2>
         </div>
 
-        <div className="mt-10 w-[26vw] h-[46vh] justify-center border border-gray-300 rounded-xl bg-gray-200 p-8 shadow-lg">
-          {" "}
+        {/* Card */}
+        <div className="mt-10 w-full sm:max-w-md border border-gray-300 rounded-xl bg-gray-200 p-6 sm:p-8 shadow-lg">
           <form className="space-y-6">
             {error && (
-              <div className="text-sm text-red-600 text-center ">{error}</div>
+              <div className="text-sm text-red-600 text-center">{error}</div>
             )}
+
+            {/* Email */}
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm/6 font-medium text-blue-800"
+                className="block text-sm font-medium text-blue-800"
               >
                 Email address
               </label>
@@ -61,20 +64,19 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
-                  className="border-2 border-blue-500 focus:border-green-500 focus:ring-2 focus:ring-green-300 text-gray-700 px-3 py-1.5 w-full rounded-md"
+                  className="border-2 border-blue-500 focus:border-green-500 focus:ring-2 focus:ring-green-300 text-gray-700 px-3 py-2 w-full rounded-md"
                 />
               </div>
             </div>
+
+            {/* Password */}
             <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm/6 font-medium text-blue-800"
-                >
-                  Password
-                </label>
-                <div className="text-sm"></div>
-              </div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-blue-800"
+              >
+                Password
+              </label>
               <div className="mt-2">
                 <input
                   id="password"
@@ -84,16 +86,18 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
-                  className="border-2 border-blue-500 focus:border-green-500 focus:ring-2 focus:ring-green-300 text-gray-700 px-3 py-1.5 w-full rounded-md"
+                  className="border-2 border-blue-500 focus:border-green-500 focus:ring-2 focus:ring-green-300 text-gray-700 px-3 py-2 w-full rounded-md"
                 />
               </div>
             </div>
-            <div>
+
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0">
               <button
                 type="button"
                 onClick={signIn}
                 disabled={loading}
-                className="w-[40%] py-2 mr-7 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                className="w-full sm:w-1/2 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
               >
                 {loading ? "Signing in..." : "Sign in"}
               </button>
@@ -101,13 +105,15 @@ const Login = () => {
                 type="button"
                 onClick={reset}
                 disabled={loading}
-                className="w-[40%] py-2 ml-7 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                className="w-full sm:w-1/2 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
               >
                 Reset
               </button>
             </div>
           </form>
-          <p className="mt-5 text-center text-lg text-gray-600">
+
+          {/* Footer */}
+          <p className="mt-5 text-center text-base text-gray-600">
             No Account?{" "}
             <Link
               to="signup"
