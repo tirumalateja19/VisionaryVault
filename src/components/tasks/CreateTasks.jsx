@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../config/Firebase";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { auth } from "../../config/Firebase";
 
 const CreateTasks = () => {
@@ -12,8 +12,9 @@ const CreateTasks = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const { setTrigger } = useOutletContext();
+  const { setTrigger, isFormOpen, setIsFormOpen } = useOutletContext();
 
   const taskCollectionRef = collection(db, "tasks");
 
@@ -48,80 +49,102 @@ const CreateTasks = () => {
       setError(err.message || "Failed to add task");
     } finally {
       setLoading(false);
+      closeModal();
     }
   };
 
+  const closeModal = () => {
+    setIsFormOpen(false);
+    navigate("..");
+  };
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "Escape") closeModal();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
   return (
-    <div className="flex items-center justify-center mt-7 mb-7">
-      <form
-        onSubmit={handleSubmit}
-        className="w-[46vw] h-full relative p-6 rounded-2xl shadow bg-white space-y-4 border-l-4 border border-green-400"
-      >
-        <h1 className="text-center text-2xl font-semibold text-gray-800">
-          Create Task
-        </h1>
+    isFormOpen && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50">
+        <form
+          onSubmit={handleSubmit}
+          className="w-[450px] bg-white p-6 rounded-xl shadow-2xl space-y-5"
+        >
+          <h1 className="text-xl font-semibold text-gray-800">Create Task</h1>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Title
-          </label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-3/6 mt-1 p-2 border border-green-400 rounded-lg focus:border-green-500 focus:ring focus:ring-green-200 outline-none"
-          />
-        </div>
+          {/* Title */}
+          <div>
+            <label className="text-sm font-medium text-gray-600">Title</label>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full mt-1 p-2 border rounded-lg outline-none focus:ring focus:ring-blue-200"
+            />
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Description
-          </label>
-          <input
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-4/6 mt-1 p-2 border border-green-400 rounded-lg focus:border-green-500 focus:ring focus:ring-green-200 outline-none"
-            rows={3}
-          />
-        </div>
+          {/* Description */}
+          <div>
+            <label className="text-sm font-medium text-gray-600">
+              Description
+            </label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+              className="w-full mt-1 p-2 border rounded-lg outline-none focus:ring focus:ring-blue-200"
+            />
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Deadline
-          </label>
-          <input
-            type="datetime-local"
-            value={dueLocal}
-            onChange={(e) => setDueLocal(e.target.value)}
-            className="w-3/6 mt-1 p-2 border border-green-400 rounded-lg focus:border-green-500 focus:ring focus:ring-yellow-200 outline-none"
-          />
-        </div>
+          {/* Deadline */}
+          <div>
+            <label className="text-sm font-medium text-gray-600">
+              Deadline
+            </label>
+            <input
+              type="datetime-local"
+              value={dueLocal}
+              onChange={(e) => setDueLocal(e.target.value)}
+              className="w-full mt-1 p-2 border rounded-lg outline-none focus:ring focus:ring-blue-200"
+            />
+          </div>
 
-        <div className="flex items-center space-x-2">
-          <input
-            id="status"
-            type="checkbox"
-            checked={status}
-            onChange={(e) => setStatus(e.target.checked)}
-            className="h-4 w-4 accent-yellow-500"
-          />
-          <label htmlFor="status" className="text-sm text-gray-700">
-            Completed
-          </label>
-        </div>
+          {/* Status */}
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={status}
+              onChange={(e) => setStatus(e.target.checked)}
+              className="h-4 w-4"
+            />
+            <span className="text-sm text-gray-700">Completed</span>
+          </div>
 
-        {error && <div className="text-sm text-red-600">{error}</div>}
+          {error && <p className="text-sm text-red-600">{error}</p>}
 
-        <div className="flex justify-end mt-4">
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow hover:bg-yellow-600 transition"
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save Task"}
-          </button>
-        </div>
-      </form>
-    </div>
+          {/* Button section: layout (b) */}
+          <div className="space-y-3">
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+              disabled={loading}
+            >
+              {loading ? "Saving..." : "Create Task"}
+            </button>
+
+            <button
+              type="button"
+              onClick={closeModal}
+              className="text-sm text-gray-600 underline"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    )
   );
 };
 

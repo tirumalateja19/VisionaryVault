@@ -10,7 +10,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { db } from "../../config/Firebase";
 import { useAuth } from "../../context/AuthContext";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../Header";
 
 const TaskDashboard = () => {
@@ -18,6 +18,8 @@ const TaskDashboard = () => {
   const [trigger, setTrigger] = useState(false);
   const { user } = useAuth();
   const taskCollectionRef = collection(db, "tasks");
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const taskData = async () => {
@@ -54,6 +56,10 @@ const TaskDashboard = () => {
       console.error(err);
     }
   };
+  const openForm = () => {
+    setIsFormOpen(true);
+    navigate("createTask");
+  };
 
   return (
     <div>
@@ -63,16 +69,16 @@ const TaskDashboard = () => {
           📝 Task Dashboard
         </h1>
         <h1 className="text-center mt-4">
-          <Link
-            to="createTask"
+          <button
+            onClick={openForm}
             className=" font-medium text-blue-600 hover:underline"
           >
             ➕ Create a new task
-          </Link>
+          </button>
         </h1>
       </div>
 
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center my-8">
         <div className="w-[90vw] max-w-4xl space-y-6">
           {taskList.map((task) => {
             return (
@@ -123,7 +129,7 @@ const TaskDashboard = () => {
       </div>
 
       <div>
-        <Outlet context={{ setTrigger }} />
+        <Outlet context={{ setTrigger, isFormOpen, setIsFormOpen }} />
       </div>
     </div>
   );

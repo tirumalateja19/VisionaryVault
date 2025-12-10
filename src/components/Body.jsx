@@ -1,9 +1,18 @@
 import Header from "./Header";
-import writing from "../utils/Images/writing.png";
-import office from "../utils/Images/office.jpg";
 import dashboard from "../utils/Images/dashboard.png";
+import { useNavigate } from "react-router-dom";
 
 function Body() {
+  const navigate = useNavigate();
+  const openTask = () => {
+    navigate("/taskDash");
+  };
+  const openNote = () => {
+    navigate("/noteDash");
+  };
+  const openMovie = () => {
+    navigate("/movieDash");
+  };
   return (
     <div className="flex min-h-svh flex-col bg-stone-50 text-zinc-900 antialiased">
       <Header />
@@ -35,22 +44,31 @@ function Body() {
             </div>
           </section>
 
-          <section className="mt-20 grid gap-6 h-[19vh] sm:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm transition-colors hover:border-emerald-500">
+          <section className="mt-20 grid gap-6 h-[19vh] sm:grid-cols-2 lg:grid-cols-3 cursor-pointer">
+            <div
+              className="rounded-lg border border-zinc-200 bg-white p-5 shadow-md transition-colors hover:border-emerald-500 hover:shadow-2xl"
+              onClick={openTask}
+            >
               <h3 className="text-lg font-semibold">Tasks without clutter</h3>
               <p className="mt-1 text-sm text-zinc-600 leading-relaxed">
                 Clear, lightweight task management to keep priorities visible
                 and actionable.
               </p>
             </div>
-            <div className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm transition-colors hover:border-emerald-500">
+            <div
+              className="rounded-lg border border-zinc-200 bg-white p-5 shadow-md transition-colors hover:border-emerald-500 hover:shadow-2xl"
+              onClick={openNote}
+            >
               <h3 className="text-lg font-semibold">Notes that stick</h3>
               <p className="mt-1 text-sm text-zinc-600 leading-relaxed">
                 Capture ideas and learning moments in a simple, organized space.
               </p>
             </div>
-            <div className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm transition-colors hover:border-emerald-500">
-              <h3 className="text-lg font-semibold">Movies to enjoy</h3>
+            <div
+              className="rounded-lg border border-zinc-200 bg-white p-5 hover:border-emerald-500 shadow-md hover:shadow-2xl transition-colors"
+              onClick={openMovie}
+            >
+              <h3 className="text-lg font-semibold ">Movies to enjoy</h3>
               <p className="mt-1 text-sm text-zinc-600 leading-relaxed">
                 Track what you’ve watched and what’s next for balanced downtime.
               </p>

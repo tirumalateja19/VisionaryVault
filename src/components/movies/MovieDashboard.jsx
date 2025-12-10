@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../config/Firebase";
 import { useAuth } from "../../context/AuthContext";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import {
   collection,
   deleteDoc,
@@ -21,6 +21,8 @@ const MovieDashboard = () => {
   //collection reference
   const movieCollectionRef = collection(db, "movies");
   //custom auth access
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -59,6 +61,10 @@ const MovieDashboard = () => {
       console.error(err);
     }
   };
+  const openForm = () => {
+    setIsFormOpen(true);
+    navigate("createMovie");
+  };
 
   return (
     <div>
@@ -68,15 +74,15 @@ const MovieDashboard = () => {
           🎬 Movie Dashboard
         </h1>
         <h1 className="text-center mt-5">
-          <Link
-            to="createMovie"
+          <button
+            onClick={openForm}
             className="text-blue-600 hover:underline font-semibold"
           >
             ➕ Add new movie
-          </Link>
+          </button>
         </h1>
 
-        <div className="flex flex-wrap justify-center gap-6 leading-7 mt-10 px-6">
+        <div className="flex flex-wrap justify-center gap-6 leading-7 my-10 px-6">
           {movieList.map((movie) => (
             <div
               key={movie.id}
@@ -110,7 +116,7 @@ const MovieDashboard = () => {
         </div>
 
         <div>
-          <Outlet context={{ setTrigger }} />
+          <Outlet context={{ setTrigger, isFormOpen, setIsFormOpen }} />
         </div>
       </div>
     </div>

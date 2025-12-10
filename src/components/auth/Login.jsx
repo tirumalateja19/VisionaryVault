@@ -31,98 +31,97 @@ const Login = () => {
   };
   // console.log(auth?.currentUser?.email);
   return (
-    <div className="flex items-center justify-center bg-[#FAFAF9] min-h-screen px-4">
-      <div className="flex min-h-full flex-col justify-center w-full max-w-md">
-        {/* Heading */}
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="text-center text-2xl/9 font-bold tracking-tight text-black">
-            Log in to your account
-          </h2>
-        </div>
+    <div
+      className="h-screen w-screen bg-contain bg-center flex items-center justify-center"
+      style={{
+        backgroundImage:
+          "url(https://i.pinimg.com/736x/91/42/c7/9142c7fd8851adb518be430d1f8c27b6.jpg)",
+      }}
+    >
+      <div
+        className="backdrop-blur-md bg-white/20 border border-white/70 shadow-2xl 
+                      rounded-3xl p-10 w-[90%] max-w-sm flex flex-col gap-5"
+      >
+        <h2 className="text-black text-3xl font-serif text-center tracking-wide">
+          Welcome Back
+        </h2>
+        {error && (
+          <div
+            className="text-sm text-red-500 text-center bg-red-500/10 
+                  border border-red-500/20 rounded-lg py-2 px-3"
+          >
+            {error}
+          </div>
+        )}
 
-        {/* Card */}
-        <div className="mt-10 w-full sm:max-w-md border border-gray-300 rounded-xl bg-gray-200 p-6 sm:p-8 shadow-lg">
-          <form className="space-y-6">
-            {error && (
-              <div className="text-sm text-red-600 text-center">{error}</div>
-            )}
-
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-blue-800"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoComplete="email"
-                  className="border-2 border-blue-500 focus:border-green-500 focus:ring-2 focus:ring-green-300 text-gray-700 px-3 py-2 w-full rounded-md"
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-blue-800"
-              >
-                Password
-              </label>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete="current-password"
-                  className="border-2 border-blue-500 focus:border-green-500 focus:ring-2 focus:ring-green-300 text-gray-700 px-3 py-2 w-full rounded-md"
-                />
-              </div>
-            </div>
-
-            {/* Buttons */}
-            <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0">
-              <button
-                type="button"
-                onClick={signIn}
-                disabled={loading}
-                className="w-full sm:w-1/2 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-              >
-                {loading ? "Signing in..." : "Sign in"}
-              </button>
-              <button
-                type="button"
-                onClick={reset}
-                disabled={loading}
-                className="w-full sm:w-1/2 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-              >
-                Reset
-              </button>
-            </div>
-          </form>
-
-          {/* Footer */}
-          <p className="mt-5 text-center text-base text-gray-600">
-            No Account?{" "}
-            <Link
-              to="signup"
-              className="cursor-pointer hover:text-red-500 font-semibold"
+        <form>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-black my-1"
             >
-              Sign Up
-            </Link>
-          </p>
-        </div>
+              Email address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              className="p-3 w-full rounded-xl bg-white/40 border border-white/30 
+                     text-black placeholder:text-black focus:outline-none"
+            />
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-black my-1"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+              className="p-3 w-full rounded-xl bg-white/20 border border-white/30 
+                     text-blac focus:outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-4 sm:flex-row sm:gap-4">
+            <button
+              type="button"
+              onClick={signIn}
+              disabled={loading}
+              className="w-32 sm:w-40 mt-4 bg-white/30 backdrop-blur-sm text-black font-semibold 
+               py-2.5 rounded-xl hover:bg-white/40 transition"
+            >
+              {loading ? "Signing in..." : "Sign in"}
+            </button>
+
+            <button
+              type="button"
+              onClick={reset}
+              disabled={loading}
+              className="w-32 sm:w-40 mt-4 bg-white/30 backdrop-blur-sm text-black font-semibold 
+               py-2.5 rounded-xl hover:bg-white/40 transition"
+            >
+              Reset
+            </button>
+          </div>
+        </form>
+        <p className=" text-center text-base text-black">
+          No Account?{" "}
+          <Link
+            to="signup"
+            className="cursor-pointer hover:text-red-500 font-semibold"
+          >
+            Sign Up
+          </Link>
+        </p>
       </div>
     </div>
   );

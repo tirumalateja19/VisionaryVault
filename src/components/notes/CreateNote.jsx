@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../config/Firebase";
 import { auth } from "../../config/Firebase";
@@ -9,7 +9,8 @@ const CreateNote = () => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { setTrigger } = useOutletContext();
+  const { setTrigger, isFormOpen, setIsFormOpen } = useOutletContext();
+  const navigate = useNavigate();
 
   const NoteReference = collection(db, "notes");
 
@@ -41,50 +42,78 @@ const CreateNote = () => {
       setError(err.message || "Failed to add Note");
     } finally {
       setLoading(false);
+      closeModal();
     }
   };
 
+  const closeModal = () => {
+    setIsFormOpen(false);
+    navigate("..");
+  };
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "Escape") closeModal();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
   return (
-    <div className="flex items-center justify-center mt-7 mb-7">
-      <form
-        onSubmit={handleSubmit}
-        className="w-[56vw] h-full p-6 rounded-2xl shadow bg-white space-y-1 border border-[#46c4a1]"
-      >
-        <h1 className="text-center text-xl font-semibold text-black">
-          CreateNotes
-        </h1>
-        <div>
-          <label className="block text-sm font-medium">Title</label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-3/6 mt-1 p-2 border border-[#46c4a1] rounded"
-          />
-        </div>
+    isFormOpen && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50">
+        <form
+          onSubmit={handleSubmit}
+          className="w-[450px] bg-white p-6 rounded-xl shadow-2xl space-y-5 border border-[#46c4a1]"
+        >
+          <h1 className="text-center text-xl font-semibold text-black">
+            Create Note
+          </h1>
 
-        <div>
-          <label className="block text-sm font-medium">Description</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-3/4 mt-1 p-2 border border-[#46c4a1] rounded"
-            rows={3}
-          />
-        </div>
+          {/* Title */}
+          <div>
+            <label className="block text-sm font-medium">Title</label>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full mt-1 p-2 border border-[#46c4a1] rounded"
+            />
+          </div>
 
-        {error && <div className="text-sm text-red-600">{error}</div>}
+          {/* Description */}
+          <div>
+            <label className="block text-sm font-medium">Description</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full mt-1 p-2 border border-[#46c4a1] rounded"
+              rows={3}
+            />
+          </div>
 
-        <div className="flex justify-end mt-4">
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow hover:bg-yellow-600 transition"
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save Note"}
-          </button>
-        </div>
-      </form>
-    </div>
+          {error && <p className="text-sm text-red-600">{error}</p>}
+
+          {/* Full-width button + cancel link */}
+          <div className="space-y-2 mt-4">
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold shadow hover:bg-blue-600 transition"
+              disabled={loading}
+            >
+              {loading ? "Saving..." : "Save Note"}
+            </button>
+
+            <button
+              type="button"
+              onClick={closeModal}
+              className="text-sm text-gray-600 underline"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    )
   );
 };
 

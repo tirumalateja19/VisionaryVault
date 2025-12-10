@@ -9,10 +9,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { db } from "../../config/Firebase";
 import { useAuth } from "../../context/AuthContext";
-import { Link, Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import Header from "../Header";
 
 const NotesDashboard = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const navigate = useNavigate();
   const [notesList, setNoteList] = useState([]);
   const [trigger, setTrigger] = useState(false);
   const NoteReference = collection(db, "notes");
@@ -44,6 +46,11 @@ const NotesDashboard = () => {
       console.error(err);
     }
   };
+  const openForm = () => {
+    setIsFormOpen(true);
+    navigate("createNote");
+  };
+
   return (
     <div>
       <Header />
@@ -52,16 +59,16 @@ const NotesDashboard = () => {
           📒 Note Dashboard
         </h1>
         <h1 className="text-center mt-4">
-          <Link
-            to="createNote"
+          <button
+            onClick={openForm}
             className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
           >
             ➕ Add new Note
-          </Link>
+          </button>
         </h1>
       </div>
 
-      <div className="flex flex-col items-center mt-8 space-y-6">
+      <div className="flex flex-col items-center my-8 space-y-6">
         {notesList.map((note) => (
           <div
             key={note.id}
@@ -89,7 +96,7 @@ const NotesDashboard = () => {
       </div>
 
       <div>
-        <Outlet context={{ setTrigger }} />
+        <Outlet context={{ setTrigger, isFormOpen, setIsFormOpen }} />
       </div>
     </div>
   );

@@ -46,7 +46,7 @@ export default function Header() {
           >
             <h1
               onClick={openTasks}
-              className="text-zinc-700 cursor-pointer transition-colors hover:text-emerald-700"
+              className="text-zinc-700 cursor-pointer transition-colors hover:text-emerald-700 underline-delay "
             >
               Tasks
             </h1>
