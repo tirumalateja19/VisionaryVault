@@ -106,19 +106,6 @@ npm run dev
 
 App runs at: `http://localhost:5173/`
 
----
-
-## 🔮 Upcoming Features
-
-- 🔐 Google Authentication
-- 🌙 Dark Mode
-- ⏱️ Task Priorities & Reminders
-- 🎬 Movie Recommendations
-- 👤 User Profile Page
-- 📊 Activity Dashboard & Analytics
-
----
-
 ## 📢 Contributing
 
 1. Fork the repository
